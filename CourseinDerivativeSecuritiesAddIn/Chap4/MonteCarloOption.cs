@@ -84,15 +84,15 @@ namespace DerivativeSecuritiesAddIn.Chap4 {
                                                  [ExcelArgument("dividend yield")] double q,
                                                  [ExcelArgument("time to maturity")] double T,
                                                  [ExcelArgument("number of time periods")] int n,
-                                                 [ExcelArgument("GARCH parameter")] double kappa,
-                                                 [ExcelArgument("GARCH parameter")] double theta,
-                                                 [ExcelArgument("GARCH parameter")] double lambda,
+                                                 [ExcelArgument("GARCH parameter")] double κ,
+                                                 [ExcelArgument("GARCH parameter")] double θ,
+                                                 [ExcelArgument("GARCH parameter")] double λ,
                                                  [ExcelArgument("number of simulations")] int m) {
             var dt = T / n;
             var sqrtdt = Sqrt(dt);
-            var a = kappa * theta;
-            var b = (1 - kappa) * lambda;
-            var c = (1 - kappa) * (1 - lambda);
+            var a = κ * θ;
+            var b = (1 - κ) * λ;
+            var c = (1 - κ) * (1 - λ);
             var logS0 = Log(s);
             var sumCall = 0D;
             var sumCallSq = 0D;
@@ -122,15 +122,15 @@ namespace DerivativeSecuritiesAddIn.Chap4 {
                                                 [ExcelArgument("dividend yield")] double q,
                                                 [ExcelArgument("time to maturity")] double T,
                                                 [ExcelArgument("number of time periods")] int n,
-                                                [ExcelArgument("GARCH parameter")] double kappa,
-                                                [ExcelArgument("GARCH parameter")] double theta,
-                                                [ExcelArgument("GARCH parameter")] double lambda,
+                                                [ExcelArgument("GARCH parameter")] double κ,
+                                                [ExcelArgument("GARCH parameter")] double θ,
+                                                [ExcelArgument("GARCH parameter")] double λ,
                                                 [ExcelArgument("number of simulations")] int m) {
             var dt = T / n;
             var sqrtdt = Sqrt(dt);
-            var a = kappa * theta;
-            var b = (1 - kappa) * lambda;
-            var c = (1 - kappa) * (1 - lambda);
+            var a = κ * θ;
+            var b = (1 - κ) * λ;
+            var c = (1 - κ) * (1 - λ);
             var logS0 = Log(s);
             var sumPut = 0D;
             var sumPutSq = 0D;

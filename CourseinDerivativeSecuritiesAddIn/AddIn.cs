@@ -8,6 +8,7 @@ namespace DerivativeSecuritiesAddIn {
         }
 
         public void AutoClose() {
+
         }
     }
 }

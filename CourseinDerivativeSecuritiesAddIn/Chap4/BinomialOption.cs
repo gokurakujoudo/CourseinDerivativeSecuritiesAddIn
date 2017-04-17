@@ -24,7 +24,7 @@ namespace DerivativeSecuritiesAddIn.Chap4
             var callV = prob * Max(s - k, 0);
             for (var i = 1; i <= n; i++) {
                 s *= u2;
-                prob *= (pu / pd) * (n - i + 1) / i;
+                prob *= pu / pd * (n - i + 1) / i;
                 callV += prob * Max(s - k, 0);
             }
             return Exp(-r * T) * callV;
@@ -50,7 +50,7 @@ namespace DerivativeSecuritiesAddIn.Chap4
             var putV = prob * Max(s - k, 0);
             for (var i = 1; i <= n; i++) {
                 s *= u2;
-                prob *= (pu / pd) * (n - i + 1) / i;
+                prob *= pu / pd * (n - i + 1) / i;
                 putV += prob * Max(k - s, 0);
             }
             return Exp(-r * T) * putV;

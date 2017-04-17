@@ -37,9 +37,6 @@
     <Reference Include="ExcelDna.IntelliSense, Version=1.0.0.1547, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ExcelDna.IntelliSense.1.0.0\lib\net40\ExcelDna.IntelliSense.dll</HintPath>
     </Reference>
-    <Reference Include="ExcelDna.Registration, Version=0.33.5730.42200, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ExcelDna.Registration.0.33.9\lib\net40\ExcelDna.Registration.dll</HintPath>
-    </Reference>
     <Reference Include="Interop.UIAutomationClient, Version=12.0.20617.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\UIAComWrapper.1.1.0.14\lib\net40\Interop.UIAutomationClient.dll</HintPath>
       <EmbedInteropTypes>False</EmbedInteropTypes>
@@ -60,8 +57,9 @@
     <Compile Include="AddIn.cs" />
     <Compile Include="Chap4\BinomialOption.cs" />
     <Compile Include="Chap3\BlackScholes.cs" />
-    <Compile Include="Chap7\GenericOption.cs" />
+    <Compile Include="Chap7\BlackScholesExtension.cs" />
     <Compile Include="Chap4\MonteCarloOption.cs" />
+    <Compile Include="Chap8\ExoticOption.cs" />
     <Compile Include="Simulation\Simulation.cs" />
     <Compile Include="Helper\BiNormalDist.cs" />
     <Compile Include="Helper\NormalDist.cs" />

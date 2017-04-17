@@ -18,7 +18,7 @@ namespace DerivativeSecuritiesAddIn.Helper {
             if (cumulative) {
                 return Phi(x, mean, std);
             }
-            var tmp = 1 / ((Math.Sqrt(2 * Math.PI) * std));
+            var tmp = 1 / (Math.Sqrt(2 * Math.PI) * std);
             return tmp * Math.Exp(-.5 * Math.Pow((x - mean) / std, 2));
         }
 
@@ -35,13 +35,13 @@ namespace DerivativeSecuritiesAddIn.Helper {
                                                                 t * (-1.13520398 +
                                                                      t * (1.48851587 +
                                                                           t * (-0.82215223 +
-                                                                               t * (0.17087277))))))))));
+                                                                               t * 0.17087277)))))))));
             if (z >= 0) return ans;
             return -ans;
         }
 
         // cumulative normal distribution
-        private static double Phi(double z) => 0.5 * (1.0 + Erf(z / (Math.Sqrt(2.0))));
+        private static double Phi(double z) => 0.5 * (1.0 + Erf(z / Math.Sqrt(2.0)));
 
         // cumulative normal distribution with mean mu and std deviation sigma
         private static double Phi(double z, double mu, double sigma) => Phi((z - mu) / sigma);
