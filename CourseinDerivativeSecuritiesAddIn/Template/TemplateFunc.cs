@@ -1,6 +1,6 @@
 ﻿using ExcelDna.Integration;
 
-namespace CourseinDerivativeSecuritiesAddIn.Template {
+namespace DerivativeSecuritiesAddIn.Template {
     public static class TemplateFunc {
         [ExcelFunction(Category = "Template")]
         public static object TempBsOption_6x1() =>

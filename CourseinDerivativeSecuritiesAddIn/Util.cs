@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace CourseinDerivativeSecuritiesAddIn
+namespace DerivativeSecuritiesAddIn
 {
     internal static class Util {
         public static T To<T>(this object obj) => (T) obj;

@@ -1,9 +1,9 @@
 ﻿using ExcelDna.Integration;
 using static System.Math;
-using static CourseinDerivativeSecuritiesAddIn.Helper.NormalDist;
-using static CourseinDerivativeSecuritiesAddIn.Util;
+using static DerivativeSecuritiesAddIn.Helper.NormalDist;
+using static DerivativeSecuritiesAddIn.Util;
 
-namespace CourseinDerivativeSecuritiesAddIn.Chap3 {
+namespace DerivativeSecuritiesAddIn.Chap3 {
     public static class BlackScholes {
 
         [ExcelFunction(Category = "BlackScholes")]

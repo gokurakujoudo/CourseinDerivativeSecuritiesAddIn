@@ -1,10 +1,10 @@
 ﻿using ExcelDna.Integration;
 using static System.Math;
-using static CourseinDerivativeSecuritiesAddIn.Chap3.BlackScholes;
-using static CourseinDerivativeSecuritiesAddIn.Helper.NormalDist;
-using static CourseinDerivativeSecuritiesAddIn.Util;
+using static DerivativeSecuritiesAddIn.Chap3.BlackScholes;
+using static DerivativeSecuritiesAddIn.Helper.NormalDist;
+using static DerivativeSecuritiesAddIn.Util;
 
-namespace CourseinDerivativeSecuritiesAddIn.Simulation {
+namespace DerivativeSecuritiesAddIn.Simulation {
     public static class Simulation {
 
         [ExcelFunction(Category = "Simulation")]

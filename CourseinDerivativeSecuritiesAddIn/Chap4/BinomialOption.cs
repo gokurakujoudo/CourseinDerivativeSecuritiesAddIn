@@ -1,7 +1,7 @@
 ﻿using ExcelDna.Integration;
 using static System.Math;
 
-namespace CourseinDerivativeSecuritiesAddIn.Chap4
+namespace DerivativeSecuritiesAddIn.Chap4
 {
     public static class BinomialOption {
         [ExcelFunction(Category = "Binomial")]

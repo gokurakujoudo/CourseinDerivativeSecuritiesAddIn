@@ -2,7 +2,7 @@
 using ExcelDna.Integration;
 using static System.Math;
 
-namespace CourseinDerivativeSecuritiesAddIn.Helper {
+namespace DerivativeSecuritiesAddIn.Helper {
     public static class BiNormalDist {
 
         [ExcelFunction("Bi-dimensional normal distribution CDF", Category = "Distribution")]

@@ -1,8 +1,8 @@
 ﻿using ExcelDna.Integration;
 using static System.Math;
-using static CourseinDerivativeSecuritiesAddIn.Helper.NormalDist;
+using static DerivativeSecuritiesAddIn.Helper.NormalDist;
 
-namespace CourseinDerivativeSecuritiesAddIn.Chap4 {
+namespace DerivativeSecuritiesAddIn.Chap4 {
     public static class MonteCarloOption {
         [ExcelFunction("This outputs the row vector (call value, delta method 1, delta method 2)",
             Category = "Simulation")]

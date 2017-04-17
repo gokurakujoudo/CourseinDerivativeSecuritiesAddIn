@@ -1,7 +1,7 @@
 ﻿using System;
 using ExcelDna.Integration;
 
-namespace CourseinDerivativeSecuritiesAddIn.Helper {
+namespace DerivativeSecuritiesAddIn.Helper {
     /// <summary>
     /// Helper class for Normal Distribution
     /// </summary>
@@ -14,7 +14,7 @@ namespace CourseinDerivativeSecuritiesAddIn.Helper {
         /// <param name="std">Standard deviation for the Normal Distribution</param>
         /// <param name="cumulative">Return CDF or PDF</param>
         /// <returns></returns>
-        public static double NormDist(double x, double mean = 0, double std = 1, bool cumulative = true) {
+        internal static double NormDist(double x, double mean = 0, double std = 1, bool cumulative = true) {
             if (cumulative) {
                 return Phi(x, mean, std);
             }

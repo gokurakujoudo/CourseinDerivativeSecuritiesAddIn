@@ -7,7 +7,7 @@
     <ProjectGuid>{1543427E-AF10-4FA3-A541-E36707E58A44}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>CourseinDerivativeSecuritiesAddIn</RootNamespace>
+    <RootNamespace>DerivativeSecuritiesAddIn</RootNamespace>
     <AssemblyName>CourseinDerivativeSecuritiesAddIn</AssemblyName>
     <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -70,17 +70,17 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="CourseinDerivativeSecuritiesAddIn-AddIn.dna">
+    <Content Include="DerivativeSecuritiesAddIn-AddIn.dna">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>xcopy "$(SolutionDir)\packages\ExcelDna.AddIn.0.33.9\tools\ExcelDna.xll" "$(TargetDir)CourseinDerivativeSecuritiesAddIn-AddIn.xll*" /C /Y
-xcopy "$(TargetDir)CourseinDerivativeSecuritiesAddIn-AddIn.dna*" "$(TargetDir)CourseinDerivativeSecuritiesAddIn-AddIn64.dna*" /C /Y
-xcopy "$(SolutionDir)\packages\ExcelDna.AddIn.0.33.9\tools\ExcelDna64.xll" "$(TargetDir)CourseinDerivativeSecuritiesAddIn-AddIn64.xll*" /C /Y
-"$(SolutionDir)\packages\ExcelDna.AddIn.0.33.9\tools\ExcelDnaPack.exe" "$(TargetDir)CourseinDerivativeSecuritiesAddIn-AddIn.dna" /Y
-"$(SolutionDir)\packages\ExcelDna.AddIn.0.33.9\tools\ExcelDnaPack.exe" "$(TargetDir)CourseinDerivativeSecuritiesAddIn-AddIn64.dna" /Y</PostBuildEvent>
+    <PostBuildEvent>xcopy "$(SolutionDir)\packages\ExcelDna.AddIn.0.33.9\tools\ExcelDna.xll" "$(TargetDir)DerivativeSecuritiesAddIn-AddIn.xll*" /C /Y
+xcopy "$(TargetDir)DerivativeSecuritiesAddIn-AddIn.dna*" "$(TargetDir)DerivativeSecuritiesAddIn-AddIn64.dna*" /C /Y
+xcopy "$(SolutionDir)\packages\ExcelDna.AddIn.0.33.9\tools\ExcelDna64.xll" "$(TargetDir)DerivativeSecuritiesAddIn-AddIn64.xll*" /C /Y
+"$(SolutionDir)\packages\ExcelDna.AddIn.0.33.9\tools\ExcelDnaPack.exe" "$(TargetDir)DerivativeSecuritiesAddIn-AddIn.dna" /Y
+"$(SolutionDir)\packages\ExcelDna.AddIn.0.33.9\tools\ExcelDnaPack.exe" "$(TargetDir)DerivativeSecuritiesAddIn-AddIn64.dna" /Y</PostBuildEvent>
   </PropertyGroup>
 </Project>

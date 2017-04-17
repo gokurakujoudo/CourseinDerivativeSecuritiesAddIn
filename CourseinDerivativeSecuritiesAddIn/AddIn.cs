@@ -1,7 +1,7 @@
 ﻿using ExcelDna.Integration;
 using ExcelDna.IntelliSense;
 
-namespace CourseinDerivativeSecuritiesAddIn {
+namespace DerivativeSecuritiesAddIn {
     public class AddIn : IExcelAddIn {
         public void AutoOpen() {
             IntelliSenseServer.Register();
