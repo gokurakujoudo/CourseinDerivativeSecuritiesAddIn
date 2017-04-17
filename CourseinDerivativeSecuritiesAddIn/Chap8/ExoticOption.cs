@@ -141,7 +141,7 @@ namespace DerivativeSecuritiesAddIn.Chap8 {
         }
 
         [ExcelFunction(Category = "Exotic Option")]
-        public static double AmerCallDivi([ExcelArgument("initial stock price")] double s,
+        public static double AmerCallDivd([ExcelArgument("initial stock price")] double s,
                                           [ExcelArgument("strike price")] double k,
                                           [ExcelArgument("risk-free rate")] double r,
                                           [ExcelArgument("volatility")] double σ,
