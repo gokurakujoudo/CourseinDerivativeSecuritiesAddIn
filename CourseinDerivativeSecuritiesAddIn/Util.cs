@@ -14,6 +14,15 @@ namespace DerivativeSecuritiesAddIn {
             return output;
         }
 
+        internal static object[,] ToColumn(this double[] input)
+        {
+            var l = input.Length;
+            var output = new object[l, 1];
+            for (var i = 0; i < l; i++)
+                output[i, 0] = input[i];
+            return output;
+        }
+
         internal const double TOL = 1E-6;
 
         internal static double Percentile(double[] sequence, double excelPercentile) {
