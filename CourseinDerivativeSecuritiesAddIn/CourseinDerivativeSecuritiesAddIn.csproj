@@ -60,7 +60,9 @@
     <Compile Include="Chap7\BlackScholesExtension.cs" />
     <Compile Include="Chap4\MonteCarloOption.cs" />
     <Compile Include="Chap8\ExoticOption.cs" />
-    <Compile Include="Interpolation.cs" />
+    <Compile Include="Helper\CubicSplineInterpolation.cs" />
+    <Compile Include="Helper\Interpolation.cs" />
+    <Compile Include="Helper\LinearAlgberaHelper.cs" />
     <Compile Include="Simulation\Simulation.cs" />
     <Compile Include="Helper\BiNormalDist.cs" />
     <Compile Include="Helper\NormalDist.cs" />
