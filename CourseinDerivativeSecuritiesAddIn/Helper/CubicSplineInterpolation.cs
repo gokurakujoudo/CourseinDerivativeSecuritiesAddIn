@@ -13,26 +13,60 @@ namespace DerivativeSecuritiesAddIn.Helper
     public static class CubicSplineInterpolation {
 
         [ExcelFunction(Category = "Interpolation")]
-        public static object[,] CubicSplineFit2Ord(double[] xs, double[] ys, double[] newx, double d, double u) {
+        public static object[,] InCubicSplineFit2Ord(double[] xs, double[] ys, double[] newx, double d, double u) {
             var cur = CubicInt(xs, ys, EnmBoradType.SecondOrder, d, u);
             var newy = newx.Select(x => cur.Fit(x)).ToArray();
             return newy.ToColumn();
         }
 
         [ExcelFunction(Category = "Interpolation")]
-        public static object[,] CubicSplineFit1Ord(double[] xs, double[] ys, double[] newx, double d, double u)
+        public static object[,] InCubicSplineFit1Ord(double[] xs, double[] ys, double[] newx, double d, double u)
         {
             var cur = CubicInt(xs, ys, EnmBoradType.FirstOrder, d, u);
             var newy = newx.Select(x => cur.Fit(x)).ToArray();
             return newy.ToColumn();
         }
 
+        [ExcelFunction(Category = "Interpolation")]
+        public static object InCubicFirstOrder(double[] xs, double[] ys) {
+            var n = xs.Length;
+            var dx = (xs[n - 1] - xs[0]) / 10000;
+            var cur = CubicInt(xs, ys, EnmBoradType.SecondOrder, 0, 0);
+
+            var delta = new double[n];
+            var y0Po = cur.Fit(xs[0] + dx);
+            delta[0] = (y0Po - ys[0]) / dx;
+            var ynNe = cur.Fit(xs[n - 1] - dx);
+            delta[n - 1] = (ys[n - 1] - ynNe) / dx;
+            for (var i = 1; i < n - 1; i++) {
+                var po = cur.Fit(xs[i] + dx);
+                var ne = cur.Fit(xs[i] - dx);
+                delta[i] = 0.5 * (po - ne) / dx;
+            }
+            return delta.ToColumn();
+        }
+
+        [ExcelFunction(Category = "Interpolation")]
+        public static object InCubicExpand_2xn(double[] xs, double[] ys) {
+            var range = XlCall.Excel(XlCall.xlfCaller).To<ExcelReference>();
+            var count = range.RowLast - range.RowFirst + 1;
+            if (count == 1)
+                return "This is an array function";
+            var newx = LinearInterpolation.LinearSeq_internal(xs[0], xs[xs.Length - 1], count);
+            var cur = CubicInt(xs, ys, EnmBoradType.SecondOrder, 0, 0);
+            var newy = newx.Select(x => cur.Fit(x)).ToArray();
+            var result = new object[count, 2];
+            for (var i = 0; i < count; i++) {
+                result[i, 0] = newx[i];
+                result[i, 1] = newy[i];
+            }
+            return result;
+        }
 
         internal static double Fit(this object[][] cubic, double x0) =>
             cubic.First(tu => x0 >= tu[0].To<double>() && x0 <= tu[1].To<double>())[2]
                  ?.To<Func<double, double>>()
                  .Invoke(x0) ?? throw new ArgumentOutOfRangeException();
-
 
         //http://blog.csdn.net/zhangxiaolu2015/article/details/42744823
         internal static object[][] CubicInt(double[] x, double[] y, EnmBoradType type, params double[] args) {

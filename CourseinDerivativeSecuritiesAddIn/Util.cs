@@ -55,5 +55,8 @@ namespace DerivativeSecuritiesAddIn {
             }
             return "Must be a row or a column";
         }
+
+        internal static double Div(this double d1, double d2) =>
+            d2 == 0 ? 0 : d1 / d2;
     }
 }
