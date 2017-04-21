@@ -1,23 +1,26 @@
-﻿namespace DerivativeSecuritiesAddIn.Helper {
-    internal static class LinearAlgberaHelper {
-        internal static double[] LuSolver(double[,] A, double[] b) {
+﻿using DerivativeSecuritiesAddIn.Util;
+using ExcelDna.Integration;
+
+namespace DerivativeSecuritiesAddIn.Helper {
+    public static class LinearAlgebraHelper {
+        internal static double[] LuSolver(double[,] a, double[] b) {
             //function x=LU_fenjieqiuxianxingfangcheng(A,b)  
             //n=size(A,1);
-            var n = A.GetLength(0);
+            var n = a.GetLength(0);
 
             //for j=1:n
             //    u(1,j)=A(1,j);
             //end
             var u = new double[n, n];
             for (var i = 0; i < n; i++)
-                u[0, i] = A[0, i];
+                u[0, i] = a[0, i];
 
             //for i=2:n
             //    l(i,1)=A(i,1)/u(1,1);
             //end
             var l = new double[n, n];
             for (var i = 1; i < n; i++)
-                l[i, 0] = A[i, 0] / u[0, 0];
+                l[i, 0] = a[i, 0] / u[0, 0];
 
             //for i=2:(n-1)
             for (var i = 1; i < n - 1; i++) {
@@ -33,7 +36,7 @@
                     sum1 += l[i, k] * u[k, i];
 
                 //    u(i,i)=A(i,i)-SUM1;
-                u[i, i] = A[i, i] - sum1;
+                u[i, i] = a[i, i] - sum1;
 
                 //    for j=(i+1):n
                 for (var j = i + 1; j < n; j++) {
@@ -48,7 +51,7 @@
                         sum2 += l[i, k] * u[k, j];
 
                     //        u(i,j)=A(i,j)-SUM2;
-                    u[i, j] = A[i, j] - sum2;
+                    u[i, j] = a[i, j] - sum2;
 
                     //        clear SUM3
                     //        SUM3=0;
@@ -61,7 +64,7 @@
                         sum3 += l[j, k] * u[k, i];
 
                     //        l(j,i)=(A(j,i)-SUM3)/u(i,i);
-                    l[j, i] = (A[j, i] - sum3) / u[i, i];
+                    l[j, i] = (a[j, i] - sum3) / u[i, i];
                 }
             }
 
@@ -76,7 +79,7 @@
                 sum4 += l[n - 1, k] * u[k, n - 1];
 
             //u(n,n)=A(n,n)-SUM4;
-            u[n - 1, n - 1] = A[n - 1, n - 1] - sum4;
+            u[n - 1, n - 1] = a[n - 1, n - 1] - sum4;
 
             //for i=1:n
             //    l(i,i)=1;
@@ -126,26 +129,26 @@
             return x;
         }
 
-        internal static double[] CatchSolver(double[,] A, double[] d) {
+        internal static double[] CatchSolver(double[,] a, double[] d) {
             //function x=ZhuiGanFa(A,d) 
             //n=size(A,1);
             //u(1)=A(1,1);
             //y(1)=d(1,1);
-            var n = A.GetLength(0);
+            var n = a.GetLength(0);
             var u = new double[n];
             var y = new double[n];
-            u[0] = A[0, 0];
+            u[0] = a[0, 0];
             y[0] = d[0];
 
             //for k=2:n
             for (var k = 1; k < n; k++) {
                 //    clear l1
                 //    l1=A(k,k-1)/u(k-1);
-                var l1 = A[k, k - 1] / u[k - 1];
+                var l1 = a[k, k - 1] / u[k - 1];
 
                 //    u(k)=A(k,k)-l1*A(k-1,k);
                 //    y(k)=d(k,1)-l1*y(k-1);
-                u[k] = A[k, k] - l1 * A[k - 1, k];
+                u[k] = a[k, k] - l1 * a[k - 1, k];
                 y[k] = d[k] - l1 * y[k - 1];
 
                 //end
@@ -159,10 +162,26 @@
             //    x(m,1)=(y(m)-A(m,m+1)*x(m+1,1))/u(m);
             //end
             for (var m = n - 2; m >= 0; m--) {
-                x[m] = (y[m] - A[m, m + 1] * x[m + 1]) / u[m];
+                x[m] = (y[m] - a[m, m + 1] * x[m + 1]) / u[m];
             }
 
             return x;
+        }
+
+
+        [ExcelFunction(Category = "Linear Algebra")]
+        public static object EquationsSolver(double[,]a, double[] b) {
+            var am = new Matrix(a);
+            var bm = new Matrix(b.ToColumn<double>());
+            var sol = am.Inverse() * bm;
+            return Matrix.LinearSolve(am, bm).Data;
+        }
+
+        [ExcelFunction(Category = "Linear Algebra")]
+        public static object MxDeterminant(double[,] matrix)
+        {
+            var am = new Matrix(matrix);
+            return am.Det();
         }
     }
 }

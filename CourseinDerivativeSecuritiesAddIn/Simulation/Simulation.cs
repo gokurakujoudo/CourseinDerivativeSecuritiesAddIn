@@ -2,7 +2,7 @@
 using static System.Math;
 using static DerivativeSecuritiesAddIn.Chap3.BlackScholes;
 using static DerivativeSecuritiesAddIn.Helper.NormalDist;
-using static DerivativeSecuritiesAddIn.Util;
+using static DerivativeSecuritiesAddIn.Util.Util;
 
 namespace DerivativeSecuritiesAddIn.Simulation {
     public static class Simulation {

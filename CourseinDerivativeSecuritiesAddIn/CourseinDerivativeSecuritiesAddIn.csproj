@@ -60,16 +60,20 @@
     <Compile Include="Chap7\BlackScholesExtension.cs" />
     <Compile Include="Chap4\MonteCarloOption.cs" />
     <Compile Include="Chap8\ExoticOption.cs" />
+    <Compile Include="Helper\Matrix.cs" />
+    <Compile Include="Util\Condition.cs" />
     <Compile Include="Helper\CubicSplineInterpolation.cs" />
     <Compile Include="Helper\LinearInterpolation.cs" />
-    <Compile Include="Helper\LinearAlgberaHelper.cs" />
+    <Compile Include="Helper\LinearAlgebraHelper.cs" />
     <Compile Include="Helper\NumericCalculus.cs" />
     <Compile Include="Simulation\Simulation.cs" />
     <Compile Include="Helper\BiNormalDist.cs" />
     <Compile Include="Helper\NormalDist.cs" />
     <Compile Include="Template\GreeksAndSigns.cs" />
     <Compile Include="Template\TemplateFunc.cs" />
-    <Compile Include="Util.cs" />
+    <Compile Include="Util\PlayGround.cs" />
+    <Compile Include="Util\RegExp.cs" />
+    <Compile Include="Util\Util.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

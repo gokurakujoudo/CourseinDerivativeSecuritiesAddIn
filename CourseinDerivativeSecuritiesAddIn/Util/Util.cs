@@ -1,7 +1,8 @@
 ﻿using System;
 using ExcelDna.Integration;
+using ExcelDna.Integration.CustomUI;
 
-namespace DerivativeSecuritiesAddIn {
+namespace DerivativeSecuritiesAddIn.Util {
     public static class Util {
         internal static T To<T>(this object obj) => (T) obj;
         internal static double Pow(this double num, double pow = 2) => Math.Pow(num, pow);
@@ -14,10 +15,17 @@ namespace DerivativeSecuritiesAddIn {
             return output;
         }
 
-        internal static object[,] ToColumn(this double[] input)
-        {
+        internal static object[,] ToColumn(this double[] input) {
             var l = input.Length;
             var output = new object[l, 1];
+            for (var i = 0; i < l; i++)
+                output[i, 0] = input[i];
+            return output;
+        }
+
+        internal static T[,] ToColumn<T>(this T[] input) {
+            var l = input.Length;
+            var output = new T[l, 1];
             for (var i = 0; i < l; i++)
                 output[i, 0] = input[i];
             return output;
@@ -37,7 +45,7 @@ namespace DerivativeSecuritiesAddIn {
         }
 
         [ExcelFunction("Generate sequence", Category = "Template")]
-        public static object Sequence(double start=0, double step = 1) {
+        public static object Sequence(double start = 0, double step = 1) {
             var range = XlCall.Excel(XlCall.xlfCaller).To<ExcelReference>();
             if (range.ColumnFirst == range.ColumnLast) {
                 var count = range.RowLast - range.RowFirst + 1;
@@ -58,5 +66,8 @@ namespace DerivativeSecuritiesAddIn {
 
         internal static double Div(this double d1, double d2) =>
             d2 == 0 ? 0 : d1 / d2;
+
+        [ExcelFunction(Category = "Utility")]
+        public static object About() => "Created by GitHub:Gokurakujoudu 2017";
     }
 }

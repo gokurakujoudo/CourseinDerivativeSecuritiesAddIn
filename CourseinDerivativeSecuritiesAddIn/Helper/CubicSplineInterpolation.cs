@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using DerivativeSecuritiesAddIn.Util;
 using ExcelDna.Integration;
 
 namespace DerivativeSecuritiesAddIn.Helper
@@ -136,7 +137,7 @@ namespace DerivativeSecuritiesAddIn.Helper
                     b[n - 3] = d[n - 2] - lambda[n - 2] * m[n - 1];
 
                     //    N=ZhuiGanFa(A,b);            
-                    var solution = LinearAlgberaHelper.CatchSolver(a, b);
+                    var solution = LinearAlgebraHelper.CatchSolver(a, b);
 
                     //    for k=2:(n-1)
                     //        M(k)=N(k-1,1);
@@ -186,7 +187,7 @@ namespace DerivativeSecuritiesAddIn.Helper
                         b2[k] = d[k];
 
                     //        N=ZhuiGanFa(A,b);
-                    var solution2 = LinearAlgberaHelper.CatchSolver(a2, b2);
+                    var solution2 = LinearAlgebraHelper.CatchSolver(a2, b2);
 
                     //        for k=1:n
                     //            M(k)=N(k,1);

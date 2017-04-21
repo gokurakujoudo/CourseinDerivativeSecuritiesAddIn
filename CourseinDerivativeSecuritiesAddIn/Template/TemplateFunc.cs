@@ -1,4 +1,5 @@
-﻿using ExcelDna.Integration;
+﻿using DerivativeSecuritiesAddIn.Util;
+using ExcelDna.Integration;
 
 namespace DerivativeSecuritiesAddIn.Template {
     public static class TemplateFunc {
