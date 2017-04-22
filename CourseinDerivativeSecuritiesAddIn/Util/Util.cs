@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Reflection;
 using ExcelDna.Integration;
 using ExcelDna.Integration.CustomUI;
+using Microsoft.Office.Interop.Excel;
 
 namespace DerivativeSecuritiesAddIn.Util {
     public static class Util {
@@ -69,5 +71,50 @@ namespace DerivativeSecuritiesAddIn.Util {
 
         [ExcelFunction(Category = "Utility")]
         public static object About() => "Created by GitHub:Gokurakujoudu 2017";
+
+        internal static Range ToRange(this ExcelReference xlref) {
+            var app = (Application) ExcelDnaUtil.Application;
+            var refText = (string) XlCall.Excel(XlCall.xlfReftext, xlref, true);
+            var range = app.Range[refText, Type.Missing];
+            return range;
+        }
+
+        [ExcelFunction(Category = "Utility", IsMacroType = true)]
+        public static object ToAddress([ExcelArgument(AllowReference = true)] object range) {
+            var rf = range.To<ExcelReference>();
+            var refText = (string) XlCall.Excel(XlCall.xlfReftext, rf, true);
+            return refText;
+        }
+
+        [ExcelFunction(Category = "Utility", IsMacroType = true)]
+        public static object ViewFormulas([ExcelArgument(AllowReference = true)] object range) {
+            var theRef = (ExcelReference) range;
+            var rows = theRef.RowLast - theRef.RowFirst + 1;
+            var res = new object[rows, 1];
+            for (var i = 0; i < rows; i++) {
+                var cellRef = new ExcelReference(
+                    theRef.RowFirst + i, theRef.RowFirst + i,
+                    theRef.ColumnFirst, theRef.ColumnFirst,
+                    theRef.SheetId);
+                res[i, 0] = XlCall.Excel(XlCall.xlfGetFormula, cellRef);
+            }
+            return res;
+        }
+
+        [ExcelFunction(Category = "Utility")]
+        public static object AutoIndex(object[] reference) {
+            var index = 1;
+            var n = reference.Length;
+            var auto = new object[n];
+            for (var i = 0; i < auto.Length; i++) {
+                if (reference[i] is ExcelEmpty) {
+                    auto[i] = "";
+                    continue;
+                }
+                auto[i] = index;
+                index++;
+            }
+            return auto.ToColumn();
+        }
     }
 }

@@ -292,7 +292,7 @@ namespace DerivativeSecuritiesAddIn.Chap8 {
 
 
         [ExcelFunction(Category = "Exotic Option")]
-        public static double Floating_Strike_Call([ExcelArgument("initial stock price")] double s,
+        public static double FloatingStrikeCall([ExcelArgument("initial stock price")] double s,
                                                   [ExcelArgument("risk-free rate")] double r,
                                                   [ExcelArgument("volatility")] double σ,
                                                   [ExcelArgument("dividend yield")] double q,
