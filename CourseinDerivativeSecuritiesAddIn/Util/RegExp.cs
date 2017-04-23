@@ -41,7 +41,7 @@ namespace DerivativeSecuritiesAddIn.Util {
 
         [ExcelFunction(Category = "Regular Expression")]
         public static object ExtractNumbers(string input, int index = 1) {
-            var reg = new Regex(@"[0-9]+");
+            var reg = new Regex(@"[0-9]+[.0-9]*");
             if (!reg.IsMatch(input)) return false;
             var matches = reg.Matches(input);
             if (index < 1) index = 1;

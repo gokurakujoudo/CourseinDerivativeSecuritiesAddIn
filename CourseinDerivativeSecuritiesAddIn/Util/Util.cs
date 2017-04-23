@@ -6,6 +6,7 @@ using Microsoft.Office.Interop.Excel;
 
 namespace DerivativeSecuritiesAddIn.Util {
     public static class Util {
+        internal static Application app = (Application)ExcelDnaUtil.Application;
         internal static T To<T>(this object obj) => (T) obj;
         internal static double Pow(this double num, double pow = 2) => Math.Pow(num, pow);
 
@@ -73,7 +74,6 @@ namespace DerivativeSecuritiesAddIn.Util {
         public static object About() => "Created by GitHub:Gokurakujoudu 2017";
 
         internal static Range ToRange(this ExcelReference xlref) {
-            var app = (Application) ExcelDnaUtil.Application;
             var refText = (string) XlCall.Excel(XlCall.xlfReftext, xlref, true);
             var range = app.Range[refText, Type.Missing];
             return range;
@@ -96,7 +96,14 @@ namespace DerivativeSecuritiesAddIn.Util {
                     theRef.RowFirst + i, theRef.RowFirst + i,
                     theRef.ColumnFirst, theRef.ColumnFirst,
                     theRef.SheetId);
-                res[i, 0] = XlCall.Excel(XlCall.xlfGetFormula, cellRef);
+                var forluma = XlCall.Excel(XlCall.xlfGetFormula, cellRef).To<string>();
+                if (!string.IsNullOrWhiteSpace(forluma)) {
+                    var r = cellRef.ToRange();
+                    var f2 = app.ConvertFormula(forluma, XlReferenceStyle.xlR1C1, XlReferenceStyle.xlA1, RelativeTo: r);
+                    var value = app.Evaluate(f2);
+                    res[i, 0] = f2;
+                }
+                else res[i, 0] = "No Formula";
             }
             return res;
         }

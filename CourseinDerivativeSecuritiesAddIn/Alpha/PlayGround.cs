@@ -11,7 +11,7 @@ namespace DerivativeSecuritiesAddIn.Alpha
         public static void SetFormula() {
             var formula = @"=Sum(A1:B5)";
             var xlApp = (Application)ExcelDnaUtil.Application;
-            var selection = xlApp.Selection as Range;
+            Range selection = xlApp.Selection;
             if (selection != null) {
                 selection.Formula = formula;
             }

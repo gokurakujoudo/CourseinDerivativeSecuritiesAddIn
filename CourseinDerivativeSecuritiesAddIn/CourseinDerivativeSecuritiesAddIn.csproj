@@ -75,6 +75,7 @@
     <Compile Include="Template\GreeksAndSigns.cs" />
     <Compile Include="Template\TemplateFunc.cs" />
     <Compile Include="Alpha\PlayGround.cs" />
+    <Compile Include="CorporateFin\FirmReturn.cs" />
     <Compile Include="Util\RegExp.cs" />
     <Compile Include="Util\Util.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
