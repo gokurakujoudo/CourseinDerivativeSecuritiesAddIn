@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using DerivativeSecuritiesAddIn.Util;
+using DerivativeSecuritiesAddIn.Utility;
 using ExcelDna.Integration;
 
 namespace DerivativeSecuritiesAddIn.Helper

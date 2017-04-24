@@ -1,6 +1,6 @@
 ﻿using ExcelDna.Integration;
 
-namespace DerivativeSecuritiesAddIn.Util {
+namespace DerivativeSecuritiesAddIn.Utility {
     public static class Condition {
         [ExcelFunction(Category = "Conditional")]
         public static object IfEqual(double input, double condition, object ifTrue, object ifFalse) =>

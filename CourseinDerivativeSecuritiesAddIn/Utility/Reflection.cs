@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using DerivativeSecuritiesAddIn.Util;
 using ExcelDna.Integration;
 
-namespace DerivativeSecuritiesAddIn.Alpha {
+namespace DerivativeSecuritiesAddIn.Utility {
 
     public static class Reflection {
         [ExcelFunction(Category = "Utility")]
@@ -29,6 +27,27 @@ namespace DerivativeSecuritiesAddIn.Alpha {
             for (var j = 0; j < 4; j++)
                 result[i, j] = ls[i][j];
             return result;
+        }
+
+        public struct ParaType {
+            public string Name;
+            public Type Type;
+            public bool Optional;
+            public object Default;
+        }
+
+        internal static ParaType[] GetParaInfo(this MethodInfo method) {
+            return method.GetParameters()
+                         .Select(p => {
+                             var at = p.GetCustomAttribute(typeof(ExNameAttribute)) as ExNameAttribute;
+                             return new ParaType {
+                                 Name = at?.Name ?? p.Name.ToUpper(),
+                                 Type = p.ParameterType,
+                                 Optional = p.IsOptional,
+                                 Default = p.DefaultValue
+                             };
+                         })
+                         .ToArray();
         }
     }
 }

@@ -57,14 +57,15 @@
   <ItemGroup>
     <Compile Include="AddIn.cs" />
     <Compile Include="Alpha\DemoRibbon.cs" />
-    <Compile Include="Alpha\Reflection.cs" />
+    <Compile Include="Utility\Reflection.cs" />
+    <Compile Include="Utility\TemplateSubBase.cs" />
     <Compile Include="Chap4\BinomialOption.cs" />
     <Compile Include="Chap3\BlackScholes.cs" />
     <Compile Include="Chap7\BlackScholesExtension.cs" />
     <Compile Include="Chap4\MonteCarloOption.cs" />
     <Compile Include="Chap8\ExoticOption.cs" />
     <Compile Include="Helper\Matrix.cs" />
-    <Compile Include="Util\Condition.cs" />
+    <Compile Include="Utility\Condition.cs" />
     <Compile Include="Helper\CubicSplineInterpolation.cs" />
     <Compile Include="Helper\LinearInterpolation.cs" />
     <Compile Include="Helper\LinearAlgebraHelper.cs" />
@@ -76,14 +77,15 @@
     <Compile Include="Template\TemplateFunc.cs" />
     <Compile Include="Alpha\PlayGround.cs" />
     <Compile Include="CorporateFin\FirmReturn.cs" />
-    <Compile Include="Util\RegExp.cs" />
-    <Compile Include="Util\Util.cs" />
+    <Compile Include="Utility\RegExp.cs" />
+    <Compile Include="Utility\Util.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="DerivativeSecuritiesAddIn-AddIn.dna">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Images\M.png" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -120,7 +122,10 @@
     <PostBuildEvent>xcopy "$(SolutionDir)\packages\ExcelDna.AddIn.0.33.9\tools\ExcelDna.xll" "$(TargetDir)DerivativeSecuritiesAddIn-AddIn.xll*" /C /Y
 xcopy "$(TargetDir)DerivativeSecuritiesAddIn-AddIn.dna*" "$(TargetDir)DerivativeSecuritiesAddIn-AddIn64.dna*" /C /Y
 xcopy "$(SolutionDir)\packages\ExcelDna.AddIn.0.33.9\tools\ExcelDna64.xll" "$(TargetDir)DerivativeSecuritiesAddIn-AddIn64.xll*" /C /Y
+xcopy "$(ProjectDir)\Images\*.*" "$(TargetDir)\Images\" /C /Y
 "$(SolutionDir)\packages\ExcelDna.AddIn.0.33.9\tools\ExcelDnaPack.exe" "$(TargetDir)DerivativeSecuritiesAddIn-AddIn.dna" /Y
-"$(SolutionDir)\packages\ExcelDna.AddIn.0.33.9\tools\ExcelDnaPack.exe" "$(TargetDir)DerivativeSecuritiesAddIn-AddIn64.dna" /Y</PostBuildEvent>
+"$(SolutionDir)\packages\ExcelDna.AddIn.0.33.9\tools\ExcelDnaPack.exe" "$(TargetDir)DerivativeSecuritiesAddIn-AddIn64.dna" /Y
+xcopy "$(TargetDir)DerivativeSecuritiesAddIn-AddIn-packed.xll" "$(TargetDir)\Alone\DerivativeSecuritiesAddIn-AddIn-packed.xll*" /C /Y
+xcopy "$(TargetDir)DerivativeSecuritiesAddIn-AddIn64-packed.xll" "$(TargetDir)\Alone\DerivativeSecuritiesAddIn-AddIn64-packed.xll*" /C /Y</PostBuildEvent>
   </PropertyGroup>
 </Project>

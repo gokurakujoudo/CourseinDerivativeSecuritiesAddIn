@@ -1,4 +1,4 @@
-﻿using DerivativeSecuritiesAddIn.Util;
+﻿using DerivativeSecuritiesAddIn.Utility;
 using ExcelDna.Integration;
 
 namespace DerivativeSecuritiesAddIn.Helper {

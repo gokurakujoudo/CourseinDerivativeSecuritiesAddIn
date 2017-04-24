@@ -1,14 +1,25 @@
 ﻿using System;
-using System.Reflection;
+using System.Collections.Generic;
 using ExcelDna.Integration;
-using ExcelDna.Integration.CustomUI;
 using Microsoft.Office.Interop.Excel;
 
-namespace DerivativeSecuritiesAddIn.Util {
+namespace DerivativeSecuritiesAddIn.Utility {
     public static class Util {
-        internal static Application app = (Application)ExcelDnaUtil.Application;
+        private static readonly Application App = (Application)ExcelDnaUtil.Application;
         internal static T To<T>(this object obj) => (T) obj;
         internal static double Pow(this double num, double pow = 2) => Math.Pow(num, pow);
+
+        public static Dictionary<TKey, TValue> ToDictionaryEx<TElement, TKey, TValue>(
+            this IEnumerable<TElement> source, Func<TElement, TKey> keyGetter, Func<TElement, TValue> valueGetter) {
+            var dict = new Dictionary<TKey, TValue>();
+            foreach (var e in source) {
+                var key = keyGetter(e);
+                if (dict.ContainsKey(key))
+                    continue;
+                dict.Add(key, valueGetter(e));
+            }
+            return dict;
+        }
 
         internal static object[,] ToColumn(this object[] input) {
             var l = input.Length;
@@ -34,7 +45,7 @@ namespace DerivativeSecuritiesAddIn.Util {
             return output;
         }
 
-        internal const double TOL = 1E-6;
+        internal const double TOL = 1E-8;
 
         internal static double Percentile(double[] sequence, double excelPercentile) {
             Array.Sort(sequence);
@@ -75,7 +86,7 @@ namespace DerivativeSecuritiesAddIn.Util {
 
         internal static Range ToRange(this ExcelReference xlref) {
             var refText = (string) XlCall.Excel(XlCall.xlfReftext, xlref, true);
-            var range = app.Range[refText, Type.Missing];
+            var range = App.Range[refText, Type.Missing];
             return range;
         }
 
@@ -84,28 +95,6 @@ namespace DerivativeSecuritiesAddIn.Util {
             var rf = range.To<ExcelReference>();
             var refText = (string) XlCall.Excel(XlCall.xlfReftext, rf, true);
             return refText;
-        }
-
-        [ExcelFunction(Category = "Utility", IsMacroType = true)]
-        public static object ViewFormulas([ExcelArgument(AllowReference = true)] object range) {
-            var theRef = (ExcelReference) range;
-            var rows = theRef.RowLast - theRef.RowFirst + 1;
-            var res = new object[rows, 1];
-            for (var i = 0; i < rows; i++) {
-                var cellRef = new ExcelReference(
-                    theRef.RowFirst + i, theRef.RowFirst + i,
-                    theRef.ColumnFirst, theRef.ColumnFirst,
-                    theRef.SheetId);
-                var forluma = XlCall.Excel(XlCall.xlfGetFormula, cellRef).To<string>();
-                if (!string.IsNullOrWhiteSpace(forluma)) {
-                    var r = cellRef.ToRange();
-                    var f2 = app.ConvertFormula(forluma, XlReferenceStyle.xlR1C1, XlReferenceStyle.xlA1, RelativeTo: r);
-                    var value = app.Evaluate(f2);
-                    res[i, 0] = f2;
-                }
-                else res[i, 0] = "No Formula";
-            }
-            return res;
         }
 
         [ExcelFunction(Category = "Utility")]

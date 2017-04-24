@@ -1,7 +1,8 @@
-﻿using ExcelDna.Integration;
+﻿using DerivativeSecuritiesAddIn.Alpha;
+using ExcelDna.Integration;
 using static System.Math;
 using static DerivativeSecuritiesAddIn.Helper.NormalDist;
-using static DerivativeSecuritiesAddIn.Util.Util;
+using static DerivativeSecuritiesAddIn.Utility.Util;
 
 namespace DerivativeSecuritiesAddIn.Chap3 {
     public static class BlackScholes {

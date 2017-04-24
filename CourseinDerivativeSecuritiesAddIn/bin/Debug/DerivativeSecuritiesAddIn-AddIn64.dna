@@ -16,6 +16,8 @@
        Excel-DNA also allows the xml for ribbon UI extensions to be specified in the .dna file.
        See the main Excel-DNA site at http://excel-dna.net for downloads of the full distribution.
   -->
+  <Image Name="M" Path="Images\M.png" Pack="true" />
+  
   <Reference Path="ExcelDna.IntelliSense.dll" Pack="true" />
   <Reference Path="UIAComWrapper.dll" Pack="true" />
   <Reference Path="Interop.UIAutomationClient.dll" Pack="true" />

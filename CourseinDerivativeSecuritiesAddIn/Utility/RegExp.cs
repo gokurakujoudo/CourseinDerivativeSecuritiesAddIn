@@ -2,7 +2,7 @@
 using System.Text.RegularExpressions;
 using ExcelDna.Integration;
 
-namespace DerivativeSecuritiesAddIn.Util {
+namespace DerivativeSecuritiesAddIn.Utility {
     public static class RegExp {
         [ExcelFunction(Category = "Regular Expression")]
         public static object ReMatch(string expression, string input, int index = 1) {

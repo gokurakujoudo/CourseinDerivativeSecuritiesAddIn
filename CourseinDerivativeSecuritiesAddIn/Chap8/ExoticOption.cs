@@ -4,7 +4,7 @@ using static DerivativeSecuritiesAddIn.Chap3.BlackScholes;
 using static DerivativeSecuritiesAddIn.Chap7.BlackScholesExtension;
 using static DerivativeSecuritiesAddIn.Helper.NormalDist;
 using static DerivativeSecuritiesAddIn.Helper.BiNormalDist;
-using static DerivativeSecuritiesAddIn.Util.Util;
+using static DerivativeSecuritiesAddIn.Utility.Util;
 
 namespace DerivativeSecuritiesAddIn.Chap8 {
     public static class ExoticOption {
