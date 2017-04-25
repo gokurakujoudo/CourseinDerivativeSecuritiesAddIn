@@ -14,14 +14,9 @@ namespace DerivativeSecuritiesAddIn.Utility {
 
         private static readonly Application App = (Application) ExcelDnaUtil.Application;
 
-        private static readonly Dictionary<string, MethodInfo> Funcdict = Assembly
-            .GetExecutingAssembly()
-            .GetTypes()
-            .Where(type => type.Namespace != null && type.Namespace.Contains("DerivativeSecuritiesAddIn"))
-            .SelectMany(type => type.GetMethods())
-            .ToDictionaryEx(m => m.Name.ToUpper(), m => m);
+        private static readonly Dictionary<string, MethodInfo> Funcdict = Reflection.GetTempsMethods();
 
-        public static void TestTemp() => CreateTemp(typeof(BlackScholes).GetMethod(nameof(BlackScholes.BsCallDelta)));
+        //public static void TestTemp() => CreateTemp(typeof(BlackScholes).GetMethod(nameof(BlackScholes.BsCallDelta)));
 
         internal static void CreateTemp(MethodInfo method) {
             Range selection = App.Selection;
@@ -31,23 +26,20 @@ namespace DerivativeSecuritiesAddIn.Utility {
             }
             var refs = method.GetParaInfo();
             var n = refs.Length;
-            var range = selection.Resize[n + 2, 2];
-            var value = new object[n + 2, 2];
+            var count = GetReturnCount(method);
+            var range = selection.Resize[n + count + 1, 2];
+            var value = new object[n + count + 1, 2];
             value[0, 0] = TYPE;
-            value[0, 1] = method.Name.ToUpper();
+            value[0, 1] = Reflection.CutName(method.Name).ToUpper();
             for (var i = 0; i < n; i++) {
                 value[i + 1, 0] = refs[i].Name;
                 value[i + 1, 1] = refs[i].Optional ? $"[{refs[i].Type.Name}] = {refs[i].Default}" : refs[i].Type.Name;
             }
             value[n + 1, 0] = "RESULT";
             range.Value = value;
-            range.Cells[n + 2, 2].FormulaR1C1 = $"={nameof(TempCall)}(R[-{n + 1}]C[-1]:R[-1]C)";
-
-            range.Cells[1, 1].Interior.Color = XlRgbColor.rgbSkyBlue;
-            range.Cells[1, 2].Interior.Color = XlRgbColor.rgbSkyBlue;
-            range.Cells[n + 2, 1].Interior.Color = XlRgbColor.rgbLightGray;
-            range.Cells[n + 2, 2].Interior.Color = XlRgbColor.rgbLightGray;
-
+            range.Cells[n + 2, 2].Resize[count, 1].FormulaArray = $"={nameof(TempCall)}(R[-{n + 1}]C[-1]:R[-1]C)";
+            range.Cells[1, 1].Resize[1, 2].Interior.Color = XlRgbColor.rgbSkyBlue;
+            range.Cells[n + 2, 1].Resize[count, 2].Interior.Color = XlRgbColor.rgbLightGray;
             range.Borders.Item[XlBordersIndex.xlEdgeLeft].LineStyle = XlLineStyle.xlContinuous;
             range.Borders.Item[XlBordersIndex.xlEdgeRight].LineStyle = XlLineStyle.xlContinuous;
             range.Borders.Item[XlBordersIndex.xlEdgeTop].LineStyle = XlLineStyle.xlContinuous;
@@ -66,7 +58,7 @@ namespace DerivativeSecuritiesAddIn.Utility {
             for (var i = 0; i < input.GetLength(0); i++)
                 dict[input[i, 0].To<string>()] = input[i, 1];
             var methodName = dict[TYPE].ToString();
-            if (string.IsNullOrEmpty(methodName) || !Funcdict.ContainsKey(methodName)) return "Error Method";
+            if (string.IsNullOrEmpty(methodName) || !Funcdict.ContainsKey(methodName.ToUpper())) return "Error Method";
             var method = Funcdict[methodName];
             var paraInfo = method.GetParaInfo();
             var n = paraInfo.Length;
@@ -85,13 +77,31 @@ namespace DerivativeSecuritiesAddIn.Utility {
                     paras[i] = paraInfo[i].Default;
                 else return $"Invalid value in {paraName}";
             }
-            return method.Invoke(null, paras);
+            var result = method.Invoke(null, paras);
+            if (result is double[] ar1)
+                return ar1.ToColumn();
+            if (result is int[] ar2)
+                return ar2.ToColumn();
+            if (result is object[] ar3)
+                return ar3.ToColumn();
+            return result;
+        }
+
+
+        internal static int GetReturnCount(MethodInfo method) {
+            var rcat = method.GetCustomAttribute<ExReturnsAttribute>();
+            return rcat?.Count ?? 1;
         }
     }
-
 
     public class ExNameAttribute : Attribute {
         public ExNameAttribute(string name) { this.Name = name; }
         public string Name { get; }
+    }
+
+    public class ExReturnsAttribute : Attribute
+    {
+        public ExReturnsAttribute(int count) { this.Count = count; }
+        public int Count { get; }
     }
 }

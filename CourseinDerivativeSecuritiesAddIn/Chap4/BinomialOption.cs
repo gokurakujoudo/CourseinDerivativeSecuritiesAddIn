@@ -1,4 +1,5 @@
-﻿using ExcelDna.Integration;
+﻿using DerivativeSecuritiesAddIn.Utility;
+using ExcelDna.Integration;
 using static System.Math;
 
 namespace DerivativeSecuritiesAddIn.Chap4
@@ -123,6 +124,7 @@ namespace DerivativeSecuritiesAddIn.Chap4
         }
 
         [ExcelFunction("This returns the row vector (put value, delta, gamma)", Category = "Binomial")]
+        [ExReturns(3)]
         public static object BiAmerPutDG_1x3([ExcelArgument("initial stock price")] double s,
                                              [ExcelArgument("strike price")] double k,
                                              [ExcelArgument("risk-free rate")] double r,
@@ -164,6 +166,7 @@ namespace DerivativeSecuritiesAddIn.Chap4
         }
 
         [ExcelFunction("This returns the row vector (put value, delta, gamma)", Category = "Binomial")]
+        [ExReturns(3)]
         public static object BiAmerCallDG_1x3([ExcelArgument("initial stock price")] double s,
                                               [ExcelArgument("strike price")] double k,
                                               [ExcelArgument("risk-free rate")] double r,

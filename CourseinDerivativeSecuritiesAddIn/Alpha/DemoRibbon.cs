@@ -50,7 +50,7 @@ namespace DerivativeSecuritiesAddIn.Alpha
         private static readonly Dictionary<string, Action> TempFuncDist = Reflection.GetTempsActions();
         private static readonly Dictionary<string, List<string>> TempFuncMenu=Reflection.GetTempsStrs();
 
-        public void OnTempPressed(IRibbonControl control) => TempFuncDist[control.Id]?.Invoke();
+        public void OnTempPressed(IRibbonControl control) => TempFuncDist[control.Id.ToUpper()]?.Invoke();
 
 
         private static string AddMenu(string title, IEnumerable<string> items, string action) {

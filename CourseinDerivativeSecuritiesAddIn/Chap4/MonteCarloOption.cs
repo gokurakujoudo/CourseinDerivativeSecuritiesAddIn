@@ -1,4 +1,5 @@
-﻿using ExcelDna.Integration;
+﻿using DerivativeSecuritiesAddIn.Utility;
+using ExcelDna.Integration;
 using static System.Math;
 using static DerivativeSecuritiesAddIn.Helper.NormalDist;
 
@@ -77,6 +78,7 @@ namespace DerivativeSecuritiesAddIn.Chap4 {
         }
 
         [ExcelFunction("This returns the row vector (call value, standard error)", Category = "Simulation")]
+        [ExReturns(2)]
         public static object McEuroCallGarch_1x2([ExcelArgument("initial stock price")] double s,
                                                  [ExcelArgument("strike price")] double k,
                                                  [ExcelArgument("risk-free rate")] double r,
@@ -115,6 +117,7 @@ namespace DerivativeSecuritiesAddIn.Chap4 {
         }
 
         [ExcelFunction("This returns the row vector (call value, standard error)", Category = "Simulation")]
+        [ExReturns(2)]
         public static object McEuroPutGarch_1x2([ExcelArgument("initial stock price")] double s,
                                                 [ExcelArgument("strike price")] double k,
                                                 [ExcelArgument("risk-free rate")] double r,
