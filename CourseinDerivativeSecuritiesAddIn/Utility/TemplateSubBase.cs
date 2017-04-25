@@ -21,13 +21,10 @@ namespace DerivativeSecuritiesAddIn.Utility {
             .SelectMany(type => type.GetMethods())
             .ToDictionaryEx(m => m.Name.ToUpper(), m => m);
 
-        public static void TestTemp() {
-            Range selection = App.Selection;
-            var method = typeof(BlackScholes).GetMethod(nameof(BlackScholes.BsCallDelta));
-            CreateTemp(selection, method);
-        }
+        public static void TestTemp() => CreateTemp(typeof(BlackScholes).GetMethod(nameof(BlackScholes.BsCallDelta)));
 
-        internal static void CreateTemp(Range selection, MethodInfo method) {
+        internal static void CreateTemp(MethodInfo method) {
+            Range selection = App.Selection;
             if (selection == null) {
                 MessageBox.Show("Invalid selection", "", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
@@ -76,8 +73,14 @@ namespace DerivativeSecuritiesAddIn.Utility {
             var paras = new object[n];
             for (var i = 0; i < n; i++) {
                 var paraName = paraInfo[i].Name;
-                if (dict.ContainsKey(paraName) && !(dict[paraName] is ExcelEmpty))
-                    paras[i] = dict[paraName];
+                if (dict.ContainsKey(paraName) && !(dict[paraName] is ExcelEmpty)) {
+                    var raw = dict[paraName];
+                    if (raw is double d && paraInfo[i].Type == typeof(int))
+                        paras[i] = (int) d;
+                    else if (paraInfo[i].Type == typeof(string))
+                        paras[i] = raw.To<string>();
+                    else paras[i] = raw;
+                }
                 else if (paraInfo[i].Optional)
                     paras[i] = paraInfo[i].Default;
                 else return $"Invalid value in {paraName}";
