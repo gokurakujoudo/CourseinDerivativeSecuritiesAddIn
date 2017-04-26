@@ -92,11 +92,13 @@ namespace DerivativeSecuritiesAddIn.Utility {
         }
     }
 
+    [AttributeUsage(AttributeTargets.Parameter)]
     public class ExNameAttribute : Attribute {
         public ExNameAttribute(string name) { this.Name = name; }
         public string Name { get; }
     }
 
+    [AttributeUsage(AttributeTargets.Method, Inherited = false)]
     public class ExReturnsAttribute : Attribute
     {
         public ExReturnsAttribute(int count) { this.Count = count; }

@@ -90,10 +90,25 @@ namespace DerivativeSecuritiesAddIn.Utility {
             return range;
         }
 
+        internal static string ToAddress(this Range range) {
+            return range.Address[true, true, XlReferenceStyle.xlA1, false];
+        }
+
+        internal static Range ToRange(this string str) {
+            try {
+                var r = App.Range[str, Type.Missing];
+                return r;
+            }
+            catch (Exception) {
+                return null;
+            }
+        }
+
         [ExcelFunction(Category = "Utility", IsMacroType = true)]
-        public static object Ref([ExcelArgument(AllowReference = true)] object range) {
+        public static object Ref([ExcelArgument(AllowReference = true)] object range)
+        {
             var rf = range.To<ExcelReference>();
-            var refText = (string) XlCall.Excel(XlCall.xlfReftext, rf, true);
+            var refText = (string)XlCall.Excel(XlCall.xlfReftext, rf, true);
             return refText;
         }
 
@@ -102,6 +117,8 @@ namespace DerivativeSecuritiesAddIn.Utility {
             var r = App.Range[address, Type.Missing];
             return r.Value;
         }
+
+
 
         [ExcelFunction(Category = "Utility")]
         public static object AutoIndex(object[] reference) {
@@ -117,6 +134,22 @@ namespace DerivativeSecuritiesAddIn.Utility {
                 index++;
             }
             return auto.ToColumn();
+        }
+
+        internal static Dictionary<string, object> ToDict(this object[,] value) {
+            var n = value.GetLength(0);
+            var dict = new Dictionary<string, object>();
+            for (var i = 0; i < n; i++) {
+                var key = value[i, 0].ToString();
+                var v = value[i, 1];
+                if(v is int vi)
+                    dict[key] = vi;
+                else if (v is string vs)
+                    dict[key] = (object) vs.ToRange() ?? vs;
+                else
+                    dict[key] = v;
+            }
+            return dict;
         }
     }
 }

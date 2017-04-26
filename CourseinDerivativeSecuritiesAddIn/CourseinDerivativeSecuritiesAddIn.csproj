@@ -56,8 +56,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AddIn.cs" />
+    <Compile Include="Alpha\DemoObjTemp.cs" />
     <Compile Include="Alpha\SharpObject.cs" />
-    <Compile Include="UserInterface\DemoRibbon.cs" />
+    <Compile Include="UserInterface\SharpRibbon.cs" />
     <Compile Include="Utility\Reflection.cs" />
     <Compile Include="Utility\TemplateSubBase.cs" />
     <Compile Include="Chap4\BinomialOption.cs" />
@@ -124,10 +125,10 @@
     <PostBuildEvent>xcopy "$(SolutionDir)\packages\ExcelDna.AddIn.0.33.9\tools\ExcelDna.xll" "$(TargetDir)DerivativeSecuritiesAddIn-AddIn.xll*" /C /Y
 xcopy "$(TargetDir)DerivativeSecuritiesAddIn-AddIn.dna*" "$(TargetDir)DerivativeSecuritiesAddIn-AddIn64.dna*" /C /Y
 xcopy "$(SolutionDir)\packages\ExcelDna.AddIn.0.33.9\tools\ExcelDna64.xll" "$(TargetDir)DerivativeSecuritiesAddIn-AddIn64.xll*" /C /Y
-xcopy "$(ProjectDir)\Images\*.*" "$(TargetDir)\Images\" /C /Y
+xcopy "$(ProjectDir)\Images\*.png" "$(TargetDir)\Images\" /C /Y
 "$(SolutionDir)\packages\ExcelDna.AddIn.0.33.9\tools\ExcelDnaPack.exe" "$(TargetDir)DerivativeSecuritiesAddIn-AddIn.dna" /Y
 "$(SolutionDir)\packages\ExcelDna.AddIn.0.33.9\tools\ExcelDnaPack.exe" "$(TargetDir)DerivativeSecuritiesAddIn-AddIn64.dna" /Y
-xcopy "$(TargetDir)DerivativeSecuritiesAddIn-AddIn-packed.xll" "$(TargetDir)\Alone\DerivativeSecuritiesAddIn-AddIn-packed.xll*" /C /Y
-xcopy "$(TargetDir)DerivativeSecuritiesAddIn-AddIn64-packed.xll" "$(TargetDir)\Alone\DerivativeSecuritiesAddIn-AddIn64-packed.xll*" /C /Y</PostBuildEvent>
+xcopy "$(TargetDir)DerivativeSecuritiesAddIn-AddIn-packed.xll" "$(TargetDir)\Alone\ExcelSharp-x86-packed.xll*" /C /Y
+xcopy "$(TargetDir)DerivativeSecuritiesAddIn-AddIn64-packed.xll" "$(TargetDir)\Alone\ExcelSharp-x64-packed.xll*" /C /Y</PostBuildEvent>
   </PropertyGroup>
 </Project>

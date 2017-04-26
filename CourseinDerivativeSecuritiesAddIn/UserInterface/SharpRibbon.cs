@@ -9,7 +9,7 @@ using ExcelDna.Integration.CustomUI;
 namespace DerivativeSecuritiesAddIn.UserInterface
 {
     [ComVisible(true)]
-    public class DemoRibbon : ExcelRibbon
+    public class SharpRibbon : ExcelRibbon
     {
         public override string GetCustomUI(string ribbonId) {
             return @"
