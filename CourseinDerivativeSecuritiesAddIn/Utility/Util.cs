@@ -91,10 +91,16 @@ namespace DerivativeSecuritiesAddIn.Utility {
         }
 
         [ExcelFunction(Category = "Utility", IsMacroType = true)]
-        public static object ToAddress([ExcelArgument(AllowReference = true)] object range) {
+        public static object Ref([ExcelArgument(AllowReference = true)] object range) {
             var rf = range.To<ExcelReference>();
             var refText = (string) XlCall.Excel(XlCall.xlfReftext, rf, true);
             return refText;
+        }
+
+        [ExcelFunction(Category = "Utility")]
+        public static object Quote(string address) {
+            var r = App.Range[address, Type.Missing];
+            return r.Value;
         }
 
         [ExcelFunction(Category = "Utility")]

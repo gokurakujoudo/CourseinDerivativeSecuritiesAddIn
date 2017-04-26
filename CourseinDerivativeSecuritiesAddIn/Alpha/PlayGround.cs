@@ -3,7 +3,6 @@ using System.Windows;
 using DerivativeSecuritiesAddIn.Utility;
 using ExcelDna.Integration;
 using Microsoft.Office.Interop.Excel;
-using Action = System.Action;
 using Application = Microsoft.Office.Interop.Excel.Application;
 
 namespace DerivativeSecuritiesAddIn.Alpha
@@ -126,11 +125,11 @@ namespace DerivativeSecuritiesAddIn.Alpha
         //            theRef.RowFirst + i, theRef.RowFirst + i,
         //            theRef.ColumnFirst, theRef.ColumnFirst,
         //            theRef.SheetId);
-        //        var forluma = XlCall.Excel(XlCall.xlfGetFormula, cellRef).To<string>();
-        //        if (!string.IsNullOrWhiteSpace(forluma))
+        //        var formula = XlCall.Excel(XlCall.xlfGetFormula, cellRef).To<string>();
+        //        if (!string.IsNullOrWhiteSpace(formula))
         //        {
         //            var r = cellRef.ToRange();
-        //            var f2 = App.ConvertFormula(forluma, XlReferenceStyle.xlR1C1, XlReferenceStyle.xlA1, RelativeTo: r);
+        //            var f2 = App.ConvertFormula(formula, XlReferenceStyle.xlR1C1, XlReferenceStyle.xlA1, RelativeTo: r);
         //            var value = App.Evaluate(f2);
         //            res[i, 0] = f2;
         //        }

@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Text;
-using System.Windows;
-using ExcelDna.Integration.CustomUI;
 using DerivativeSecuritiesAddIn.Utility;
+using ExcelDna.Integration.CustomUI;
 
-namespace DerivativeSecuritiesAddIn.Alpha
+namespace DerivativeSecuritiesAddIn.UserInterface
 {
     [ComVisible(true)]
     public class DemoRibbon : ExcelRibbon
@@ -55,7 +54,7 @@ namespace DerivativeSecuritiesAddIn.Alpha
 
         private static string AddMenu(string title, IEnumerable<string> items, string action) {
             var sb = new StringBuilder();
-            //sb.Append($@"<menu id='{title}' getTitle=""GetTempTitle"" xmlns=""http://schemas.microsoft.com/office/2006/01/customui"" />");
+            //sb.Append($@"<menu id='{title}' getTitle=""GetTempTitle"" />");
             sb.Append($@"<menuSeparator id='{title}' getTitle=""GetTempTitle"" />");
             foreach (var item in items)
                 sb.Append(AddMenuItemButton(item, action));

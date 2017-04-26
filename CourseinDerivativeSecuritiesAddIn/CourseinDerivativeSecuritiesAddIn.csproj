@@ -56,7 +56,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AddIn.cs" />
-    <Compile Include="Alpha\DemoRibbon.cs" />
+    <Compile Include="Alpha\SharpObject.cs" />
+    <Compile Include="UserInterface\DemoRibbon.cs" />
     <Compile Include="Utility\Reflection.cs" />
     <Compile Include="Utility\TemplateSubBase.cs" />
     <Compile Include="Chap4\BinomialOption.cs" />

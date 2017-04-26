@@ -1,16 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 using System.Windows;
-using DerivativeSecuritiesAddIn.Chap3;
 using ExcelDna.Integration;
 using Microsoft.Office.Interop.Excel;
 using Application = Microsoft.Office.Interop.Excel.Application;
 
 namespace DerivativeSecuritiesAddIn.Utility {
     public static class TemplateSubBase {
-        private const string TYPE = "TYPE";
+        private const string CALC = "CALC";
 
         private static readonly Application App = (Application) ExcelDnaUtil.Application;
 
@@ -29,7 +27,7 @@ namespace DerivativeSecuritiesAddIn.Utility {
             var count = GetReturnCount(method);
             var range = selection.Resize[n + count + 1, 2];
             var value = new object[n + count + 1, 2];
-            value[0, 0] = TYPE;
+            value[0, 0] = CALC;
             value[0, 1] = Reflection.CutName(method.Name).ToUpper();
             for (var i = 0; i < n; i++) {
                 value[i + 1, 0] = refs[i].Name;
@@ -57,7 +55,7 @@ namespace DerivativeSecuritiesAddIn.Utility {
             var dict = new Dictionary<string, object>();
             for (var i = 0; i < input.GetLength(0); i++)
                 dict[input[i, 0].To<string>()] = input[i, 1];
-            var methodName = dict[TYPE].ToString();
+            var methodName = dict[CALC].ToString();
             if (string.IsNullOrEmpty(methodName) || !Funcdict.ContainsKey(methodName.ToUpper())) return "Error Method";
             var method = Funcdict[methodName];
             var paraInfo = method.GetParaInfo();

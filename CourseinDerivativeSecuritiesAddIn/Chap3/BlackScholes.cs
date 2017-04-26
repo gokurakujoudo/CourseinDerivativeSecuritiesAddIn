@@ -1,5 +1,4 @@
-﻿using DerivativeSecuritiesAddIn.Alpha;
-using ExcelDna.Integration;
+﻿using ExcelDna.Integration;
 using static System.Math;
 using static DerivativeSecuritiesAddIn.Helper.NormalDist;
 using static DerivativeSecuritiesAddIn.Utility.Util;
