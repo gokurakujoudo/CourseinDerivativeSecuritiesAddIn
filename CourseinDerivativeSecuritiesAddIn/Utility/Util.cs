@@ -91,7 +91,7 @@ namespace DerivativeSecuritiesAddIn.Utility {
         }
 
         internal static string ToAddress(this Range range) {
-            return range.Address[true, true, XlReferenceStyle.xlA1, false];
+            return range.Address[true, true, XlReferenceStyle.xlA1, true];
         }
 
         internal static Range ToRange(this string str) {
@@ -139,17 +139,35 @@ namespace DerivativeSecuritiesAddIn.Utility {
         internal static Dictionary<string, object> ToDict(this object[,] value) {
             var n = value.GetLength(0);
             var dict = new Dictionary<string, object>();
-            for (var i = 0; i < n; i++) {
-                var key = value[i, 0].ToString();
-                var v = value[i, 1];
-                if(v is int vi)
-                    dict[key] = vi;
+            var mr = value.GetLowerBound(0);
+            var mc = value.GetLowerBound(0);
+            for (var i = mr; i < n + mr; i++) {
+                var key = value[i, mc].ToString();
+                var v = value[i, mc + 1];
+                if (v is int vi)
+                    dict[key] = (double) vi;
                 else if (v is string vs)
                     dict[key] = (object) vs.ToRange() ?? vs;
                 else
                     dict[key] = v;
             }
             return dict;
+        }
+
+        internal static double ToDouble(this object obj) {
+            if (obj is int i) return i;
+            if (obj is double d) return d;
+            throw new InvalidCastException();
+        }
+
+        internal static object ToExcelPrint(this object v) {
+            if (v is Range r)
+                return r.ToAddress();
+            if (v is int vi)
+                return vi;
+            if (v is double vd)
+                return  vd;
+            return  v.ToString();
         }
     }
 }
