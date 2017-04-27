@@ -1,19 +1,18 @@
 ﻿using System.Linq;
 using System.Windows;
+using DerivativeSecuritiesAddIn.Utility;
 using ExcelDna.Integration;
 using Microsoft.Office.Interop.Excel;
 using Application = Microsoft.Office.Interop.Excel.Application;
 
-namespace DerivativeSecuritiesAddIn.Alpha
+namespace DerivativeSecuritiesAddIn.ObjectSystem
 {
-    public static class SharpObjectExcelTemplate
-    {
-        private static readonly Application App = (Application)ExcelDnaUtil.Application;
+    public static class SharpObjectExcelTemplate {
+        private static readonly Application App = (Application) ExcelDnaUtil.Application;
 
         internal static void CreateObjTemp(SharpObjectTemplate temp) {
             Range selection = App.Selection;
-            if (selection == null)
-            {
+            if (selection == null) {
                 MessageBox.Show("Invalid selection", "", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
@@ -25,8 +24,9 @@ namespace DerivativeSecuritiesAddIn.Alpha
             var range = selection.Resize[2 + nprop + ncporp + 1, 2];
 
             var rangeIn = selection.Resize[2 + nprop, 2];
-            var rangeOut = range.Cells[2 + nprop + 1, 1].Resize[ncporp + 1, 2];
             var cellCall = range.Cells[2 + nprop + 1, 2];
+            var rangeCall = range.Cells[2 + nprop + 1, 1].Resize[1, 2];
+            var rangeOut = range.Cells[2 + nprop + 2, 1].Resize[ncporp, 2];
 
             var valueIn = new object[2 + nprop, 2];
             valueIn[0, 0] = SharpObjectHelper.ID;
@@ -35,19 +35,28 @@ namespace DerivativeSecuritiesAddIn.Alpha
             for (var i = 0; i < nprop; i++) {
                 var propName = propArray[i].Key;
                 var propDef = propArray[i].Value;
-                var propDes = temp.PropertyDescription[propName];
+                valueIn[i + 2, 0] = propName;
+                if (temp.PropertyDescription.TryGetValue(propName, out var propDes)) {
+                    if (propDef != null)
+                        valueIn[i + 2, 1] = $"[{propDes}] = {propDef.ToExcelPrint()}";
+                    else
+                        valueIn[i + 2, 1] = $"{propDes}";
+                }
+                else {
+                    if (propDef != null)
+                        valueIn[i + 2, 1] = $"[{propDef.ToExcelPrint()}]";
+                    else
+                        valueIn[i + 2, 1] = "NO DEFINATION";
+                }
             }
-            rangeIn.Value = valueIn;//TODO
+            rangeIn.Value = valueIn;
+            rangeCall.Value = new object[] {"OBJECT", null};
+            cellCall.Formula = $"={nameof(SharpObjectHelper.CreateObj)}(R[-{nprop + 2}]C[-1]:R[-1]C)";
+            rangeOut.FormulaArray = $"={nameof(SharpObjectHelper.ViewObjComputedProp)}(R[-1]C[1])";
 
-            //var value = new object[n + count + 1, 2];
-
-            //value[n + 1, 0] = "RESULT";
-            //range.Value = value;
-            //range.Cells[n + 2, 2].Resize[count, 1].FormulaArray = $"={nameof(TempCall)}(R[-{n + 1}]C[-1]:R[-1]C)";
-            //range.Cells[1, 1].Resize[1, 2].Interior.Color = XlRgbColor.rgbSkyBlue;
-            //range.Cells[n + 2, 1].Resize[count, 2].Interior.Color = XlRgbColor.rgbLightGray;
-
-
+            range.Cells[1, 1].Resize[1, 2].Interior.Color = XlRgbColor.rgbSkyBlue;
+            rangeCall.Interior.Color = XlRgbColor.rgbLightGray;
+            rangeOut.Interior.Color = XlRgbColor.rgbLightGray;
 
             range.Borders.Item[XlBordersIndex.xlEdgeLeft].LineStyle = XlLineStyle.xlContinuous;
             range.Borders.Item[XlBordersIndex.xlEdgeRight].LineStyle = XlLineStyle.xlContinuous;

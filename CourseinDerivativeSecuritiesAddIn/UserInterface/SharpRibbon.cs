@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Text;
+using DerivativeSecuritiesAddIn.Alpha;
+using DerivativeSecuritiesAddIn.ObjectSystem;
 using DerivativeSecuritiesAddIn.Utility;
 using ExcelDna.Integration.CustomUI;
 
@@ -22,7 +24,8 @@ namespace DerivativeSecuritiesAddIn.UserInterface
                           <button id='btnUpdate' image='Update' size='large' label='Check Update' onAction='CheckUpdate'/>
                         </group>
                         <group id='group2' label='Insert'>
-                            <dynamicMenu id='dynamicMenu1' image='Calculator' size='large' label = 'Calculator' getContent = 'GetTempContent' />
+                          <dynamicMenu id='dynamicMenu1' image='Calculator' size='large' label = 'Calculator' getContent = 'GetTempContent' />
+                          <button id='btnDemo' size='large' label='+1s' onAction='DemoObj'/>
                         </group>
                       </tab>
                     </tabs>
@@ -63,5 +66,14 @@ namespace DerivativeSecuritiesAddIn.UserInterface
         }
 
         private static string AddMenuItemButton(string label, string action) => $@"<button id=""{label}"" label=""{label}"" onAction=""{action}"" />";
+
+        public void DemoObj(IRibbonControl control) {
+            var temp = new SharpObjectTemplate("DEMO") {
+                PropertyList = {{"AGE", 100}},
+                PropertyDescription = {{"AGE", "double"}},
+                ComputedPropertyList = {{"NEWAGE", so => so["AGE"].ToDouble() + 1}}
+            };
+            SharpObjectExcelTemplate.CreateObjTemp(temp);
+        }
     }
 }

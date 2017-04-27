@@ -5,7 +5,7 @@ using DerivativeSecuritiesAddIn.Utility;
 using ExcelDna.Integration;
 using Microsoft.Office.Interop.Excel;
 
-namespace DerivativeSecuritiesAddIn.Alpha {
+namespace DerivativeSecuritiesAddIn.ObjectSystem {
     internal class SharpObject {
         internal Range Init { get; }
         internal Dictionary<string, object> Properties { get; }
@@ -18,7 +18,7 @@ namespace DerivativeSecuritiesAddIn.Alpha {
         }
 
         public override string ToString() => $"{this.Id()} : {this.TemplateName()} [{this.Init.ToAddress()}]";
-        public string[] ToSign() => new[] {this.Id(), this.TemplateName(), this.Init.ToAddress()};
+        internal string[] ToSign() => new[] {this.Id(), this.TemplateName(), this.Init.ToAddress()};
 
         internal object this[string key] {
             get {
@@ -46,19 +46,22 @@ namespace DerivativeSecuritiesAddIn.Alpha {
         private static readonly Application App = (Application) ExcelDnaUtil.Application;
         private static readonly Dictionary<string, SharpObject> Env = new Dictionary<string, SharpObject>();
         private static readonly Dictionary<string, SharpObjectTemplate> Templates = FindTemplates();
-        internal const string ID = "OBJ ID";
+        internal const string ID = "OBJECT ID";
         internal const string TYPE = "TYPE";
         private const string UNDIFINED = "UNDIFINED";
         internal static readonly string[] Spefields = {ID, TYPE};
 
 
         internal static object[,] PrintCompulted(this SharpObject obj) {
+            if (obj == null) return new object[,] {{string.Empty, "Object not found"}};
             var n = obj.ComputedProperties.Count;
+            if (n == 0) return new object[,] {{string.Empty, "No Calc-Prop"}};
             var ar = obj.ComputedProperties.ToArray();
             var result = new object[n, 2];
             for (var i = 0; i < n; i++) {
-                result[i, 0] = ar[i].Key.ToUpper();
-                result[i, 1] = ar[i].Value?.Invoke(obj) ?? UNDIFINED;
+                var key = ar[i].Key;
+                result[i, 0] = key.ToUpper();
+                result[i, 1] = obj.GetCalculatedProperty(key).ToExcelPrint();
             }
             return result;
         }
@@ -83,12 +86,9 @@ namespace DerivativeSecuritiesAddIn.Alpha {
                 result[i + 2, 1] = v.ToExcelPrint();
             }
             for (var i = 0; i < m; i++) {
-                result[i + 2 + n, 0] = cprop[i].Key.ToUpper();
-                var v = cprop[i].Value?.Invoke(obj) ?? UNDIFINED;
-                if (v is Range r)
-                    result[i + 2 + n, 1] = r.ToAddress();
-                else
-                    result[i + 2 + n, 1] = v;
+                var key = cprop[i].Key;
+                result[i + 2 + n, 0] = key.ToUpper();
+                result[i + 2 + n, 1] = obj.GetCalculatedProperty(key).ToExcelPrint();
             }
             return result;
         }
@@ -96,6 +96,17 @@ namespace DerivativeSecuritiesAddIn.Alpha {
         internal static SharpObjectTemplate GetTemplate(this SharpObject obj) {
             var name = obj.TemplateName();
             return Templates.TryGetValue(name, out var temp) ? temp : null;
+        }
+
+        internal static object GetCalculatedProperty(this SharpObject obj, string propertyName) {
+            object value;
+            try {
+                value = obj.ComputedProperties[propertyName]?.Invoke(obj) ?? UNDIFINED;
+            }
+            catch {
+                value = "ERROR";
+            }
+            return value;
         }
 
         [ExcelFunction(Category = "Alpha", IsVolatile = true, IsMacroType = true)]
@@ -113,14 +124,14 @@ namespace DerivativeSecuritiesAddIn.Alpha {
             var range = rref.ToRange();
             var dict = value.ToDict();
             if (!dict.TryGetValue(ID, out var rid)) return "Invalid Selection";
-            if (rid is Range || string.IsNullOrWhiteSpace(rid.ToString()))
+            if (rid ==null || rid is Range || string.IsNullOrWhiteSpace(rid.ToString()))
                 return "Invalid Id";
             var id = $"@{rid.ToString().ToUpper()}";
             if (Env.TryGetValue(id, out var same) && same.Init.ToAddress() != range.ToAddress())
                 if (same.Init.Value == id)
                     return $"Duplicate Id in {same.Init.ToAddress()}";
             var so = new SharpObject(range, dict) {[ID] = id};
-            if (dict.TryGetValue(TYPE, out var rtemp) && !string.IsNullOrWhiteSpace(rtemp.ToString())) {
+            if (dict.TryGetValue(TYPE, out var rtemp) && !string.IsNullOrWhiteSpace(rtemp?.ToString())) {
                 if (rtemp is Range)
                     return "Invalid Type";
                 if (!Templates.TryGetValue(rtemp.ToString().ToUpper(), out var temp) || temp == null)

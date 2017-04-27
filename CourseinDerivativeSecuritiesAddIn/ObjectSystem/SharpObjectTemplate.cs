@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace DerivativeSecuritiesAddIn.Alpha {
+namespace DerivativeSecuritiesAddIn.ObjectSystem {
     internal class SharpObjectTemplate {
         public SharpObjectTemplate(string typeName) {
             this.TypeName = typeName.ToUpper();

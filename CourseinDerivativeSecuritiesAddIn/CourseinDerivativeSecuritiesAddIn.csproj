@@ -57,9 +57,9 @@
   <ItemGroup>
     <Compile Include="AddIn.cs" />
     <Compile Include="Alpha\DemoObjTemp.cs" />
-    <Compile Include="Alpha\SharpObject.cs" />
-    <Compile Include="Alpha\SharpObjectExcelTemplate.cs" />
-    <Compile Include="Alpha\SharpObjectTemplate.cs" />
+    <Compile Include="ObjectSystem\SharpObject.cs" />
+    <Compile Include="ObjectSystem\SharpObjectExcelTemplate.cs" />
+    <Compile Include="ObjectSystem\SharpObjectTemplate.cs" />
     <Compile Include="UserInterface\SharpRibbon.cs" />
     <Compile Include="Utility\Reflection.cs" />
     <Compile Include="Utility\TemplateSubBase.cs" />

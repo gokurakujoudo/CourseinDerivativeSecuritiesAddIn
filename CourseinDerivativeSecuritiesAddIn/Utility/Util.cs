@@ -144,7 +144,9 @@ namespace DerivativeSecuritiesAddIn.Utility {
             for (var i = mr; i < n + mr; i++) {
                 var key = value[i, mc].ToString();
                 var v = value[i, mc + 1];
-                if (v is int vi)
+                if (v is ExcelEmpty)
+                    dict[key] = null;
+                else if (v is int vi)
                     dict[key] = (double) vi;
                 else if (v is string vs)
                     dict[key] = (object) vs.ToRange() ?? vs;
@@ -161,6 +163,8 @@ namespace DerivativeSecuritiesAddIn.Utility {
         }
 
         internal static object ToExcelPrint(this object v) {
+            if (v == null)
+                return string.Empty;
             if (v is Range r)
                 return r.ToAddress();
             if (v is int vi)
