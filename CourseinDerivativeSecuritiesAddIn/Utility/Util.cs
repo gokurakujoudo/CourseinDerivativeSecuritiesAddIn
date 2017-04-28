@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using DerivativeSecuritiesAddIn.ObjectSystem;
 using ExcelDna.Integration;
 using Microsoft.Office.Interop.Excel;
 
@@ -148,8 +149,12 @@ namespace DerivativeSecuritiesAddIn.Utility {
                     dict[key] = null;
                 else if (v is int vi)
                     dict[key] = (double) vi;
-                else if (v is string vs)
-                    dict[key] = (object) vs.ToRange() ?? vs;
+                else if (v is string vs) {
+                    if (vs.StartsWith(SharpObjectHelper.IDPREFIX))
+                        dict[key] = SharpObjectHelper.Find(vs);
+                    else
+                        dict[key] = (object) vs.ToRange() ?? vs;
+                }
                 else
                     dict[key] = v;
             }
@@ -165,6 +170,8 @@ namespace DerivativeSecuritiesAddIn.Utility {
         internal static object ToExcelPrint(this object v) {
             if (v == null)
                 return string.Empty;
+            if (v is SharpObject so)
+                return so.Id();
             if (v is Range r)
                 return r.ToAddress();
             if (v is int vi)
