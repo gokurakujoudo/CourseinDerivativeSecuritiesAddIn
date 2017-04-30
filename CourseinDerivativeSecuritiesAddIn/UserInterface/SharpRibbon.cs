@@ -73,7 +73,8 @@ namespace DerivativeSecuritiesAddIn.UserInterface
                 PropertyDescription = {{"AGE", "double"}},
                 ComputedPropertyList = {{"NEWAGE", so => so["AGE"].ToDouble() + 1}}
             };
-            SharpObjectExcelTemplate.CreateObjTemp(temp);
+            var df = DataFrameHelper.ProvideTemplate();
+            SharpObjectExcelTemplate.CreateObjTemp(df);
         }
     }
 }

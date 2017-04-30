@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using DerivativeSecuritiesAddIn.Alpha;
 using DerivativeSecuritiesAddIn.Utility;
 using ExcelDna.Integration;
 using Microsoft.Office.Interop.Excel;
@@ -146,7 +147,8 @@ namespace DerivativeSecuritiesAddIn.ObjectSystem {
                     ComputedPropertyList = {{"NEWAGE", so => so["AGE"].ToDouble() + 1}}
                 }
             };
-
+            var df = DataFrameHelper.ProvideTemplate();
+            dict.Add(df.TypeName, df);
             return dict;
         }
 
